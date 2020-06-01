@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import APIService from './../APIService/APIService';
 import WeatherDisplay from './weather-display';
 
-const countryCodes = [ 'London', 'Tokyo', 10005, 'Pluto', 10345, 77777];
+const countryCodes = [ 'London', 'Tokyo', 10005, 'Pluto', 10345, 77777,'kl67'];
 export default class WhetherReport extends Component {
 
     getWeatherReports() {
@@ -17,7 +17,7 @@ export default class WhetherReport extends Component {
                     if (data.cod === 200) {
                         data=Object.assign({'countryCode':element}, data)
                         reportStack.push(data);
-                    } else {
+                    } else if(data.cod=== '404') {
                         reportStack.push({
                             name: 'Not found',
                             countryCode: element,
@@ -31,6 +31,8 @@ export default class WhetherReport extends Component {
                             },
                             timezone: 'Not found'
                         })
+                    } else {
+                      this.setState({isError:true});
                     }
                     if (reportStack.length === this.state.countryInputs.length) {
                         this.setState({
